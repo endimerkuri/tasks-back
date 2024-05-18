@@ -8,10 +8,8 @@ import { UserDocument } from 'src/users/schemas/user.schema';
 export class TokensService {
   constructor(@InjectModel(Token.name) private tokenModel: Model<Token>) {}
 
-  findOneByRefreshToken(
-    refreshToken: string,
-  ): Promise<TokenDocument | undefined> {
-    return this.tokenModel.findOne({ refreshToken });
+  findByRefreshToken(refreshToken: string): Promise<TokenDocument | undefined> {
+    return this.tokenModel.findOne({ refreshToken }).populate('user');
   }
 
   async findById(id: string): Promise<TokenDocument | undefined> {

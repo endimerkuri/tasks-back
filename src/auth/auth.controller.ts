@@ -39,14 +39,10 @@ export class AuthController {
     return normalizeResponse({ _message: 'Logged out successfully!' });
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('refresh')
-  async refresh(@Request() req, @Body() payload: { refreshToken: string }) {
-    const { token, user } = req.user;
-    if (token.refreshToken !== payload.refreshToken) {
-      throw new UnauthorizedException('Invalid refresh token');
-    }
-    const authentication = await this.authService.refresh(token, user);
+  async refresh(@Body() payload: { refreshToken: string }) {
+    const authentication = await this.authService.refresh(payload.refreshToken);
+
     return normalizeResponse({
       authentication,
       _message: 'Refreshed token successfully!',

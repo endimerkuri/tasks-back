@@ -1,13 +1,20 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 import { UserDocument } from 'src/users/schemas/user.schema';
 import { TokensService } from 'src/tokens/tokens.service';
 import { TokenDocument } from 'src/tokens/schemas/token.schema';
+import crypto from 'crypto';
 
 @Injectable()
 export class AuthService {
+  private refreshTokenLength = 256;
+
   constructor(
     private usersService: UsersService,
     private tokensService: TokensService,
@@ -25,7 +32,9 @@ export class AuthService {
   }
 
   async login(user: UserDocument) {
-    const refreshToken = 'refresh';
+    const refreshToken = crypto
+      .randomBytes(this.refreshTokenLength)
+      .toString('hex');
     const token = await this.tokensService.create(refreshToken, user);
     const payload = { username: user.username, sub: user._id, jti: token._id };
     const accessToken = this.jwtService.sign(payload);
@@ -59,9 +68,19 @@ export class AuthService {
     await token.deleteOne();
   }
 
-  async refresh(token: TokenDocument, user: UserDocument) {
-    const refreshToken = 'newrefresh';
-    const newToken = await this.tokensService.create(refreshToken, user);
+  async refresh(refreshToken: string) {
+    const token = await this.tokensService.findByRefreshToken(refreshToken);
+    if (!token) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+
+    const user: UserDocument = token.get('user') as UserDocument;
+
+    const newRefreshToken = crypto
+      .randomBytes(this.refreshTokenLength)
+      .toString('hex');
+    const newToken = await this.tokensService.create(newRefreshToken, user);
+
     const payload = {
       username: user.username,
       sub: user._id,
