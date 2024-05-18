@@ -37,7 +37,9 @@ export class AuthService {
   }
 
   async register(user: any) {
-    const existingUser = await this.usersService.findOneByUsername(user.username);
+    const existingUser = await this.usersService.findOneByUsername(
+      user.username,
+    );
     if (existingUser) {
       throw new ConflictException('Username already exists');
     }
@@ -55,5 +57,22 @@ export class AuthService {
 
   async logout(token: TokenDocument) {
     await token.deleteOne();
+  }
+
+  async refresh(token: TokenDocument, user: UserDocument) {
+    const refreshToken = 'newrefresh';
+    const newToken = await this.tokensService.create(refreshToken, user);
+    const payload = {
+      username: user.username,
+      sub: user._id,
+      jti: newToken._id,
+    };
+    const accessToken = this.jwtService.sign(payload);
+    await token.deleteOne();
+
+    return {
+      accessToken,
+      refreshToken,
+    };
   }
 }

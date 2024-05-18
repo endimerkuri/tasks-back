@@ -8,15 +8,20 @@ import { UserDocument } from 'src/users/schemas/user.schema';
 export class TokensService {
   constructor(@InjectModel(Token.name) private tokenModel: Model<Token>) {}
 
-  findOneByRefreshToken(refreshToken: string): Promise<TokenDocument | undefined> {
-    return this.tokenModel.findOne({ refreshToken }).exec();
+  findOneByRefreshToken(
+    refreshToken: string,
+  ): Promise<TokenDocument | undefined> {
+    return this.tokenModel.findOne({ refreshToken });
   }
 
   async findById(id: string): Promise<TokenDocument | undefined> {
-    return this.tokenModel.findById(id).exec();
+    return this.tokenModel.findById(id);
   }
 
-  async create(refreshToken: string, user: UserDocument): Promise<TokenDocument> {
+  async create(
+    refreshToken: string,
+    user: UserDocument,
+  ): Promise<TokenDocument> {
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 7);
     const newToken = new this.tokenModel({ refreshToken, user, expiresAt });

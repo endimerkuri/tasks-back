@@ -8,11 +8,11 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async findOneByUsername(username: string): Promise<UserDocument | undefined> {
-    return this.userModel.findOne({ username }).exec();
+    return this.userModel.findOne({ username });
   }
 
   async findById(id: string): Promise<UserDocument | undefined> {
-    return this.userModel.findById(id).exec();
+    return this.userModel.findById(id);
   }
 
   async create(user: User): Promise<UserDocument> {

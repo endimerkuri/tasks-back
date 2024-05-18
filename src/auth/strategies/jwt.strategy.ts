@@ -7,7 +7,10 @@ import { TokensService } from 'src/tokens/tokens.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly usersService: UsersService, private readonly tokensService: TokensService) {
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly tokensService: TokensService,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -15,17 +18,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: { sub: string, jti: string }) {
-    console.log('==================================================')
-    console.log('==================================================')
+  async validate(payload: { sub: string; jti: string }) {
     const token = await this.tokensService.findById(payload.jti);
     const now = new Date();
     if (!token) return null;
 
     if (token.expiresAt < now) {
       token.deleteOne();
-      return null
-    };
+      return null;
+    }
 
     const user = await this.usersService.findById(payload.sub);
     if (!user) return null;
