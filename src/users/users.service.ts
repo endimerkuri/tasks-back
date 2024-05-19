@@ -15,7 +15,11 @@ export class UsersService {
     return this.userModel.findById(id);
   }
 
-  async create(user: User): Promise<UserDocument> {
+  async create(user: {
+    username: string;
+    password: string;
+    fullName: string;
+  }): Promise<UserDocument> {
     const newUser = new this.userModel(user);
     return newUser.save();
   }

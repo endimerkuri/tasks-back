@@ -45,7 +45,11 @@ export class AuthService {
     };
   }
 
-  async register(user: any) {
+  async register(user: {
+    username: string;
+    password: string;
+    fullName: string;
+  }) {
     const existingUser = await this.usersService.findOneByUsername(
       user.username,
     );
@@ -59,8 +63,8 @@ export class AuthService {
       fullName: user.fullName,
       username: user.username,
       password,
-      refreshTokens: [],
     };
+    console.log(newUser);
     return this.usersService.create(newUser);
   }
 

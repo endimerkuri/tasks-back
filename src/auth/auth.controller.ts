@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Post,
-  UseGuards,
-  Request,
-  Body,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Controller, Post, UseGuards, Request, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { normalizeResponse } from 'src/util/helpers/response.helpers';
 import { LocalAuthGuard } from 'src/guards/local-auth.guard';
@@ -26,8 +19,11 @@ export class AuthController {
   }
 
   @Post('register')
-  async register(@Request() req) {
-    const user = await this.authService.register(req.body);
+  async register(
+    @Request() req,
+    @Body() payload: { username: string; password: string; fullName: string },
+  ) {
+    const user = await this.authService.register(payload);
     return normalizeResponse({ user, _message: 'Registered successfully!' });
   }
 
