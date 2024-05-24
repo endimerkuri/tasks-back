@@ -6,6 +6,8 @@ import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TokensModule } from './tokens/tokens.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TasksModule } from './tasks/tasks.module';
+import { TaskStatusModule } from './task-status/task-status.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -24,6 +26,8 @@ import configuration from './config/configuration';
     AuthModule,
     UsersModule,
     TokensModule,
+    TasksModule,
+    TaskStatusModule,
   ],
   controllers: [AppController],
   providers: [AppService],

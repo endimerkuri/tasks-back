@@ -48,7 +48,9 @@ export class AuthService {
   async register(user: {
     username: string;
     password: string;
-    fullName: string;
+    firstName: string;
+    lastName: string;
+    email: string;
   }) {
     const existingUser = await this.usersService.findOneByUsername(
       user.username,
@@ -60,11 +62,12 @@ export class AuthService {
     const password = await bcrypt.hash(user.password, saltOrRounds);
 
     const newUser = {
-      fullName: user.fullName,
+      firstName: user.firstName,
+      lastName: user.lastName,
       username: user.username,
       password,
+      email: user.email,
     };
-    console.log(newUser);
     return this.usersService.create(newUser);
   }
 
@@ -95,7 +98,7 @@ export class AuthService {
 
     return {
       accessToken,
-      refreshToken,
+      refreshToken: newRefreshToken,
     };
   }
 }

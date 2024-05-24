@@ -11,8 +11,11 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req) {
+    const { firstName, username, lastName, email, _id: id, role } = req.user;
     const authentication = await this.authService.login(req.user);
+    const user = { firstName, lastName, email, username, id, role };
     return normalizeResponse({
+      user,
       authentication,
       _message: 'Logged in successfully!',
     });
@@ -21,7 +24,14 @@ export class AuthController {
   @Post('register')
   async register(
     @Request() req,
-    @Body() payload: { username: string; password: string; fullName: string },
+    @Body()
+    payload: {
+      username: string;
+      password: string;
+      firstName: string;
+      lastName: string;
+      email: string;
+    },
   ) {
     const user = await this.authService.register(payload);
     return normalizeResponse({ user, _message: 'Registered successfully!' });
