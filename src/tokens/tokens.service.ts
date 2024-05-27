@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Token, TokenDocument } from './schemas/token.schema';
 import { Model } from 'mongoose';
-import { UserDocument } from 'src/users/schemas/user.schema';
+import { UserDocument } from '../users/schemas/user.schema';
 
 @Injectable()
 export class TokensService {

@@ -1,6 +1,6 @@
 import { Controller, Get, UseGuards, Request, Put, Body } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
-import { normalizeResponse } from 'src/util/helpers/response.helpers';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { normalizeResponse } from '../util/helpers/response.helpers';
 
 @Controller('users')
 export class UsersController {

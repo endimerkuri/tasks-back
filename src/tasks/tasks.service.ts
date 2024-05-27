@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Task } from './schemas/task.schema';
 import { Model } from 'mongoose';
-import { User } from 'src/users/schemas/user.schema';
-import { TaskStatus } from 'src/task-status/schemas/task-status.schema';
+import { User } from '../users/schemas/user.schema';
+import { TaskStatus } from '../task-status/schemas/task-status.schema';
 
 @Injectable()
 export class TasksService {

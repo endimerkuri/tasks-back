@@ -9,8 +9,8 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
-import { normalizeResponse } from 'src/util/helpers/response.helpers';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { normalizeResponse } from '../util/helpers/response.helpers';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')

@@ -6,7 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import {
   TaskStatus,
   TaskStatusSchema,
-} from 'src/task-status/schemas/task-status.schema';
+} from '../task-status/schemas/task-status.schema';
 
 @Module({
   imports: [

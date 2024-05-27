@@ -6,9 +6,9 @@ import {
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
-import { UserDocument } from 'src/users/schemas/user.schema';
-import { TokensService } from 'src/tokens/tokens.service';
-import { TokenDocument } from 'src/tokens/schemas/token.schema';
+import { UserDocument } from '../users/schemas/user.schema';
+import { TokensService } from '../tokens/tokens.service';
+import { TokenDocument } from '../tokens/schemas/token.schema';
 import crypto from 'crypto';
 
 @Injectable()
