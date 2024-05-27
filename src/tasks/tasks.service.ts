@@ -82,10 +82,16 @@ export class TasksService {
   }
 
   async findGrouped(): Promise<any> {
-    const tasksStatuses = await this.taskStatusModel.find().sort({ rank: 1 }).lean() as any;
+    const tasksStatuses = (await this.taskStatusModel
+      .find()
+      .sort({ rank: 1 })
+      .lean()) as any;
 
     for (const status of tasksStatuses) {
-      const task = await this.taskModel.find({ status: status._id }).sort({ _id: -1 }).lean();
+      const task = await this.taskModel
+        .find({ status: status._id })
+        .sort({ _id: -1 })
+        .lean();
       status.tasks = task;
     }
 
