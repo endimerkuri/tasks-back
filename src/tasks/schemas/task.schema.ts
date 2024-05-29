@@ -28,6 +28,12 @@ export class Task {
     required: true,
   })
   status: TaskStatus;
+
+  @Prop({ required: false })
+  label: string;
+
+  @Prop({ required: false })
+  labelColor: string;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

@@ -8,6 +8,7 @@ import {
   Put,
   Param,
   Delete,
+  Patch,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { normalizeResponse } from '../util/helpers/response.helpers';
@@ -38,6 +39,8 @@ export class TasksController {
       due: Date;
       statusId: string;
       pictureUrl?: string;
+      label?: string;
+      labelColor?: string;
     },
   ) {
     const { user } = req.user;
@@ -56,6 +59,8 @@ export class TasksController {
       due?: Date;
       statusId?: string;
       pictureUrl?: string;
+      label?: string;
+      labelColor?: string;
     },
     @Param('id')
     id: string,

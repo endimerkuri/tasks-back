@@ -22,6 +22,8 @@ export class TasksService {
     description?: string;
     pictureUrl?: string;
     user: User;
+    label?: string;
+    labelColor?: string;
   }): Promise<Task> {
     const status = await this.taskStatusModel.findById(payload.statusId);
     if (!status) {
@@ -45,6 +47,8 @@ export class TasksService {
       statusId?: string;
       description?: string;
       pictureUrl?: string;
+      label?: string;
+      labelColor?: string;
       user: User;
     },
   ): Promise<Task> {
@@ -67,7 +71,9 @@ export class TasksService {
     task.due = payload.due || task.due;
     task.status = status;
     task.description = payload.description || task.description;
-    task.pictureUrl = payload.pictureUrl || task.pictureUrl;
+    task.pictureUrl = payload.pictureUrl ?? task.pictureUrl;
+    task.label = payload.label || task.label;
+    task.labelColor = payload.labelColor || task.labelColor;
 
     await task.save();
     return task;
