@@ -72,8 +72,8 @@ export class TasksService {
     task.status = status;
     task.description = payload.description || task.description;
     task.pictureUrl = payload.pictureUrl ?? task.pictureUrl;
-    task.label = payload.label || task.label;
-    task.labelColor = payload.labelColor || task.labelColor;
+    task.label = payload.label ?? task.label;
+    task.labelColor = payload.labelColor ?? task.labelColor;
 
     await task.save();
     return task;
